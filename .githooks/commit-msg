@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+# Conventional Commits yoxlaması
+msg_file="$1"
+first_line=$(head -n1 "$msg_file")
+
+# Merge/revert/fixup commit-lərini burax
+if [[ "$first_line" =~ ^(Merge|Revert|fixup!|squash!) ]]; then
+  exit 0
+fi
+
+pattern='^(feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert)(\([a-z0-9-]+\))?!?: .{1,100}$'
+if ! [[ "$first_line" =~ $pattern ]]; then
+  echo "✖ Commit mesajı Conventional Commits formatına uyğun deyil:"
+  echo "    $first_line"
+  echo ""
+  echo "  Format: <type>(<scope>): <təsvir>"
+  echo "  Nümunə: feat(parking): add nearby parking search"
+  echo "  Ətraflı: CONTRIBUTING.md"
+  exit 1
+fi
