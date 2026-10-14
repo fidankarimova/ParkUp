@@ -1,19 +1,19 @@
-## Təsvir
+## Description
 
-<!-- Nə dəyişdi və niyə? -->
+<!-- What changed and why? -->
 
 Closes #
 
-## Dəyişikliyin növü
+## Type of change
 
-- [ ] feat — yeni funksionallıq
-- [ ] fix — xəta düzəlişi
-- [ ] refactor — davranış dəyişmədən kod təkmilləşdirilməsi
-- [ ] docs — sənədlər
-- [ ] chore / build / ci — infrastruktur
+- [ ] feat — new feature
+- [ ] fix — bug fix
+- [ ] refactor — code improvement without behavior change
+- [ ] docs — documentation
+- [ ] chore / build / ci — infrastructure
 - [ ] ⚠️ BREAKING CHANGE
 
-## Təsirlənən servislər
+## Affected services
 
 - [ ] api-gateway
 - [ ] user-service
@@ -23,14 +23,14 @@ Closes #
 - [ ] notification-service
 - [ ] infra
 
-## Necə test olunub?
+## How was this tested?
 
-<!-- Unit/integration testlər, manual yoxlama addımları -->
+<!-- Unit/integration tests, manual verification steps -->
 
 ## Checklist
 
-- [ ] Branch adı `feature/*`, `fix/*` və ya `hotfix/*` formatındadır
-- [ ] Commit-lər Conventional Commits formatındadır
-- [ ] `./mvnw verify` uğurla keçir
-- [ ] Yeni/dəyişən API və Kafka hadisələri `docs/`-da əks olunub
-- [ ] DB miqrasiyaları (varsa) geriyə uyğundur
+- [ ] Branch name follows `feature/*`, `fix/*` or `hotfix/*`
+- [ ] Commits follow Conventional Commits
+- [ ] `./mvnw verify` passes
+- [ ] New/changed APIs and Kafka events are documented in `docs/`
+- [ ] DB migrations (if any) are backward compatible

@@ -1,27 +1,27 @@
 # ParkUp
 
-Parkinq yerlərinin axtarışı, rezervasiyası və ödənişi üçün mikroservis platforması.
-Ətraflı: [docs/architecture.md](docs/architecture.md)
+A microservice platform for finding, reserving and paying for parking spots.
+Details: [docs/architecture.md](docs/architecture.md)
 
-## Tələblər
+## Requirements
 
 - Java 21+
 - Docker + Docker Compose
 
-## Lokal işə salma
+## Running locally
 
 ```bash
-# 1. Infrastruktur (PostgreSQL/PostGIS, Redis, Kafka, Kafka UI)
+# 1. Infrastructure (PostgreSQL/PostGIS, Redis, Kafka, Kafka UI)
 cd infra && cp -n .env.example .env && docker compose up -d && cd ..
 
 # 2. Build
 ./mvnw clean verify
 
-# 3. Servisi işə sal (məs. parking-service)
+# 3. Run a service (e.g. parking-service)
 ./mvnw -pl services/parking-service spring-boot:run
 ```
 
-| Komponent | Ünvan |
+| Component | Address |
 |---|---|
 | API Gateway | http://localhost:8080 |
 | Kafka UI | http://localhost:8090 |
@@ -29,6 +29,6 @@ cd infra && cp -n .env.example .env && docker compose up -d && cd ..
 | Redis | localhost:6379 |
 | Kafka | localhost:9092 |
 
-## Töhfə
+## Contributing
 
-Branch strategiyası və commit qaydaları: [CONTRIBUTING.md](CONTRIBUTING.md)
+Branching strategy and commit rules: [CONTRIBUTING.md](CONTRIBUTING.md)

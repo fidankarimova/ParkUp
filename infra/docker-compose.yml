@@ -39,7 +39,7 @@ services:
     ports:
       - "${KAFKA_PORT:-9092}:9092"
     environment:
-      # KRaft rejimi (ZooKeeper yoxdur): tək node həm broker, həm controller
+      # KRaft mode (no ZooKeeper): a single node acts as both broker and controller
       KAFKA_NODE_ID: 1
       KAFKA_PROCESS_ROLES: broker,controller
       KAFKA_CONTROLLER_QUORUM_VOTERS: 1@kafka:9093

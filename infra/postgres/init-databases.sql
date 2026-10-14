@@ -1,4 +1,4 @@
--- Hər servis üçün ayrıca DB (database-per-service)
+-- Separate database for each service (database-per-service)
 CREATE DATABASE parkup_user;
 CREATE DATABASE parkup_parking;
 CREATE DATABASE parkup_booking;

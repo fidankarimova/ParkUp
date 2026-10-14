@@ -13,7 +13,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>ParkUp</name>
-	<description>ParkUp monorepo - parent POM. Bütün ortaq versiyalar burada saxlanılır.</description>
+	<description>ParkUp monorepo - parent POM. All shared versions are managed here.</description>
 
 	<modules>
 		<module>services/api-gateway</module>
@@ -42,7 +42,7 @@
 	</dependencyManagement>
 
 	<dependencies>
-		<!-- Hər servisə lazım olan ortaq asılılıqlar -->
+		<!-- Common dependencies shared by every service -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>

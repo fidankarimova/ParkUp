@@ -1,34 +1,34 @@
-# Töhfə qaydaları
+# Contributing
 
-## Branch strategiyası (Git flow)
+## Branching strategy (Git flow)
 
-| Branch | Məqsəd |
+| Branch | Purpose |
 |---|---|
-| `main` | Production-a hazır kod. Yalnız `release/*` və `hotfix/*` merge olunur. |
-| `develop` | İnteqrasiya branch-ı. Bütün feature-lar bura merge olunur. |
-| `feature/<qisa-ad>` | Yeni funksionallıq. `develop`-dan açılır, PR ilə `develop`-a qayıdır. |
-| `release/<versiya>` | Buraxılışa hazırlıq. `develop`-dan açılır, `main` və `develop`-a merge olunur. |
-| `hotfix/<qisa-ad>` | Production-da təcili düzəliş. `main`-dən açılır, `main` və `develop`-a merge olunur. |
+| `main` | Production-ready code. Only `release/*` and `hotfix/*` are merged here. |
+| `develop` | Integration branch. All features are merged here. |
+| `feature/<short-name>` | New functionality. Branched from `develop`, merged back into `develop` via PR. |
+| `release/<version>` | Release preparation. Branched from `develop`, merged into both `main` and `develop`. |
+| `hotfix/<short-name>` | Urgent production fix. Branched from `main`, merged into both `main` and `develop`. |
 
-Nümunə: `feature/parking-geo-search`, `hotfix/booking-double-reserve`
+Examples: `feature/parking-geo-search`, `hotfix/booking-double-reserve`
 
-`main` və `develop`-a birbaşa push edilmir — yalnız Pull Request ilə.
+Never push directly to `main` or `develop` — use Pull Requests only.
 
-## Commit mesajları (Conventional Commits)
+## Commit messages (Conventional Commits)
 
 ```
-<type>(<scope>): <qısa təsvir>
+<type>(<scope>): <short description>
 
-[ətraflı izah]
+[optional body]
 
-[footer: BREAKING CHANGE: ..., Closes #123]
+[optional footer: BREAKING CHANGE: ..., Closes #123]
 ```
 
 **type:** `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
 
-**scope** (istəyə bağlı): servis və ya sahə adı — `gateway`, `user`, `parking`, `booking`, `payment`, `notification`, `infra`, `docs`
+**scope** (optional): service or area name — `gateway`, `user`, `parking`, `booking`, `payment`, `notification`, `infra`, `docs`
 
-Nümunələr:
+Examples:
 ```
 feat(parking): add nearby parking search with PostGIS
 fix(booking): prevent double reservation of same slot
@@ -36,9 +36,9 @@ chore(infra): add Kafka UI to docker-compose
 feat(user)!: change JWT claims format
 ```
 
-### Commit mesajı yoxlaması
+### Commit message check
 
-Repo-da `commit-msg` hook-u var. Klonladıqdan sonra bir dəfə aktivləşdirin:
+The repo ships a `commit-msg` hook. Enable it once after cloning:
 
 ```bash
 git config core.hooksPath .githooks

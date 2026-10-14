@@ -1,8 +1,8 @@
-# ParkUp — Arxitektura
+# ParkUp — Architecture
 
-ParkUp parkinq yerlərinin axtarışı, rezervasiyası və ödənişi üçün mikroservis əsaslı platformadır.
+ParkUp is a microservice-based platform for finding, reserving and paying for parking spots.
 
-## Ümumi baxış
+## Overview
 
 ```
             ┌──────────────┐
@@ -18,27 +18,27 @@ ParkUp parkinq yerlərinin axtarışı, rezervasiyası və ödənişi üçün mi
                      Kafka (events) ──▶ notification-service :8085
 ```
 
-## Servislər
+## Services
 
-| Servis | Port | Məsuliyyət | Məlumat anbarı |
+| Service | Port | Responsibility | Data store |
 |---|---|---|---|
-| **api-gateway** | 8080 | Vahid giriş nöqtəsi: routing, JWT yoxlaması, rate limiting, CORS | — (Redis: rate limit) |
-| **user-service** | 8081 | Qeydiyyat, giriş, JWT tokenlər, istifadəçi profili, avtomobillər (nömrə nişanı) | `parkup_user` |
-| **parking-service** | 8082 | Parkinq sahələri və yerləri, coğrafi axtarış ("yaxınlıqdakı parkinqlər"), tariflər, real-time doluluq | `parkup_parking` (PostGIS), Redis (doluluq keşi) |
-| **booking-service** | 8083 | Rezervasiyanın yaradılması/ləğvi, vaxt slotlarının idarəsi, ikiqat rezervasiyanın qarşısının alınması | `parkup_booking`, Redis (distributed lock) |
-| **payment-service** | 8084 | Ödənişin başlanması və təsdiqi, geri qaytarma, ödəniş provayderi inteqrasiyası | `parkup_payment` |
-| **notification-service** | 8085 | Kafka hadisələrinə əsasən push / SMS / e-mail bildirişləri | — (stateless) |
+| **api-gateway** | 8080 | Single entry point: routing, JWT validation, rate limiting, CORS | — (Redis: rate limiting) |
+| **user-service** | 8081 | Registration, login, JWT tokens, user profiles, vehicles (license plates) | `parkup_user` |
+| **parking-service** | 8082 | Parking lots and spots, geo search ("parkings near me"), pricing, real-time occupancy | `parkup_parking` (PostGIS), Redis (occupancy cache) |
+| **booking-service** | 8083 | Creating/cancelling reservations, time-slot management, preventing double booking | `parkup_booking`, Redis (distributed lock) |
+| **payment-service** | 8084 | Payment initiation and confirmation, refunds, payment provider integration | `parkup_payment` |
+| **notification-service** | 8085 | Push / SMS / e-mail notifications driven by Kafka events | — (stateless) |
 
-## Prinsiplər
+## Principles
 
-- **Database-per-service:** hər servisin öz DB-si var; başqa servisin cədvəlinə birbaşa müraciət qadağandır.
-- **Sinxron:** servislər arası sorğular REST ilə, yalnız gateway üzərindən xaricə açılır.
-- **Asinxron:** vəziyyət dəyişiklikləri Kafka hadisələri ilə paylanır.
-- **Konfiqurasiya:** hər servis `application.yml`, mühitə görə dəyişənlər environment variable ilə.
+- **Database-per-service:** every service owns its database; direct access to another service's tables is forbidden.
+- **Synchronous:** service-to-service calls use REST; only the gateway is exposed externally.
+- **Asynchronous:** state changes are propagated via Kafka events.
+- **Configuration:** each service has its own `application.yml`; environment-specific values come from environment variables.
 
-## Kafka hadisələri (ilkin)
+## Kafka events (initial)
 
-| Topic | Producer | Consumer(lər) |
+| Topic | Producer | Consumer(s) |
 |---|---|---|
 | `user.registered` | user-service | notification-service |
 | `booking.created` | booking-service | payment-service, parking-service, notification-service |
@@ -47,18 +47,18 @@ ParkUp parkinq yerlərinin axtarışı, rezervasiyası və ödənişi üçün mi
 | `payment.failed` | payment-service | booking-service, notification-service |
 | `parking.occupancy-changed` | parking-service | — |
 
-## Texnologiyalar
+## Tech stack
 
 - Java 21, Spring Boot 4.1, Spring Cloud 2025.1 (Gateway Server WebMVC)
-- Maven multi-module (ortaq versiyalar kök `pom.xml`-də)
+- Maven multi-module (shared versions in the root `pom.xml`)
 - PostgreSQL 17 + PostGIS 3.5, Redis 7.4, Apache Kafka 4.1 (KRaft), Kafka UI (kafbat)
 
-## Repo quruluşu
+## Repository layout
 
 ```
 parkup/
-├── services/   # hər mikroservis ayrıca Maven modulu
-├── infra/      # docker-compose və lokal infrastruktur
-├── docs/       # arxitektura və digər sənədlər
+├── services/   # each microservice is a separate Maven module
+├── infra/      # docker-compose and local infrastructure
+├── docs/       # architecture and other documentation
 └── pom.xml     # parent POM
 ```
